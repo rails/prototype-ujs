@@ -26,11 +26,17 @@ document.observe("dom:loaded", function() {
   }
 
   function handleRemoteLink(element) {
+    var event;
+
     // TODO: data-url support is going away, just use href
     var url    = element.readAttribute('data-url') || element.readAttribute('href');
     var method = element.readAttribute('data-method') || 'GET';
 
-    var event = element.fire("ajax:before");
+    // TODO: Better name for this event
+    event = element.fire("rails:confirm");
+    if (event.stopped) return false;
+
+    event = element.fire("ajax:before");
     if (event.stopped) return false;
 
     new Ajax.Request(url, {
@@ -55,5 +61,11 @@ document.observe("dom:loaded", function() {
       handleRemoteLink(element);
       event.stop();
     }
+  });
+
+  // TODO: Better name for this event
+  $(document.body).observe("rails:confirm", function(event) {
+    var message = event.memo.message || event.element().readAttribute('data-confirm');
+    if (message && !confirm(message)) event.stop();
   });
 });
