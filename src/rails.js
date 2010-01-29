@@ -51,6 +51,9 @@ document.observe("dom:loaded", function() {
 
   $(document.body).observe("click", function(event) {
     var element = event.findElement("a[data-remote=true]");
-    if (element) handleRemoteLink(element);
+    if (element) {
+      handleRemoteLink(element);
+      event.stop();
+    }
   });
 });
