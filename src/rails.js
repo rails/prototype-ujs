@@ -30,6 +30,8 @@ document.observe("dom:loaded", function() {
     var url    = element.readAttribute('data-url') || element.readAttribute('href');
     var method = element.readAttribute('data-method') || 'GET';
 
+    element.fire("ajax:before");
+
     new Ajax.Request(url, {
       method: method,
       asynchronous: true,
@@ -42,6 +44,8 @@ document.observe("dom:loaded", function() {
       onSuccess: Callbacks.onSuccess.curry(element),
       onFailure: Callbacks.onFailure.curry(element)
     });
+
+    element.fire("ajax:after");
   }
 
   $(document.body).observe("click", function(event) {
