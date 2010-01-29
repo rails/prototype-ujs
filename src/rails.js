@@ -1,9 +1,5 @@
 document.observe("dom:loaded", function() {
   var Callbacks = {
-    onUninitialized: function(element, request) {
-      element.fire("ajax:uninitialized", {request: request});
-    },
-
     onLoading: function(element, request) {
       element.fire("ajax:loading", {request: request});
     },
@@ -39,7 +35,6 @@ document.observe("dom:loaded", function() {
       asynchronous: true,
       evalScripts: true,
 
-      onUninitialized: Callbacks.onUninitialized.curry(element),
       onLoading: Callbacks.onLoading.curry(element),
       onLoaded: Callbacks.onLoaded.curry(element),
       onInteractive: Callbacks.onInteractive.curry(element),
