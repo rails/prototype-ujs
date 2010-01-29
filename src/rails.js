@@ -30,7 +30,8 @@ document.observe("dom:loaded", function() {
     var url    = element.readAttribute('data-url') || element.readAttribute('href');
     var method = element.readAttribute('data-method') || 'GET';
 
-    element.fire("ajax:before");
+    var event = element.fire("ajax:before");
+    if (event.stopped) return false;
 
     new Ajax.Request(url, {
       method: method,
