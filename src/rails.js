@@ -39,13 +39,7 @@ document.observe("dom:loaded", function() {
       params = {};
     }
 
-    var event;
-
-    // TODO: Better name for this event
-    event = element.fire("rails:confirm");
-    if (event.stopped) return false;
-
-    event = element.fire("ajax:before");
+    var event = element.fire("ajax:before");
     if (event.stopped) return false;
 
     new Ajax.Request(url, {
@@ -73,9 +67,8 @@ document.observe("dom:loaded", function() {
     }
   });
 
-  // TODO: Better name for this event
-  $(document.body).observe("rails:confirm", function(event) {
-    var message = event.memo.message || event.element().readAttribute('data-confirm');
+  $(document.body).observe("ajax:before", function(event) {
+    var message = event.element().readAttribute('data-confirm');
     if (message && !confirm(message)) event.stop();
   });
 
