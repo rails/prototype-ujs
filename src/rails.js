@@ -68,4 +68,13 @@ document.observe("dom:loaded", function() {
     var message = event.memo.message || event.element().readAttribute('data-confirm');
     if (message && !confirm(message)) event.stop();
   });
+
+  // TODO: I don't think submit bubbles in IE
+  $(document.body).observe("submit", function(event) {
+    var inputs = event.element().select("input[data-disable-with]");
+    inputs.each(function(input) {
+      input.disabled = true;
+      input.value = input.readAttribute('data-disable-with');
+    });
+  });
 });
