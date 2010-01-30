@@ -1,30 +1,4 @@
 document.observe("dom:loaded", function() {
-  var Callbacks = {
-    onLoading: function(element, request) {
-      element.fire("ajax:loading", {request: request});
-    },
-
-    onLoaded: function(element, request) {
-      element.fire("ajax:loaded", {request: request});
-    },
-
-    onInteractive: function(element, request) {
-      element.fire("ajax:interactive", {request: request});
-    },
-
-    onComplete: function(element, request) {
-      element.fire("ajax:complete", {request: request});
-    },
-
-    onSuccess: function(element, request) {
-      element.fire("ajax:success", {request: request});
-    },
-
-    onFailure: function(element, request) {
-      element.fire("ajax:failure", {request: request});
-    }
-  }
-
   function handleRemote(element) {
     var method, url, params;
 
@@ -48,12 +22,12 @@ document.observe("dom:loaded", function() {
       asynchronous: true,
       evalScripts: true,
 
-      onLoading: Callbacks.onLoading.curry(element),
-      onLoaded: Callbacks.onLoaded.curry(element),
-      onInteractive: Callbacks.onInteractive.curry(element),
-      onComplete: Callbacks.onComplete.curry(element),
-      onSuccess: Callbacks.onSuccess.curry(element),
-      onFailure: Callbacks.onFailure.curry(element)
+      onLoading:     function(request) { element.fire("ajax:loading", {request: request}); },
+      onLoaded:      function(request) { element.fire("ajax:loaded", {request: request}); },
+      onInteractive: function(request) { element.fire("ajax:interactive", {request: request}); },
+      onComplete:    function(request) { element.fire("ajax:complete", {request: request}); },
+      onSuccess:     function(request) { element.fire("ajax:success", {request: request}); },
+      onFailure:     function(request) { element.fire("ajax:failure", {request: request}); }
     });
 
     element.fire("ajax:after");
