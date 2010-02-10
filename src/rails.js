@@ -39,7 +39,7 @@ document.observe("dom:loaded", function() {
       return false;
     }
 
-    var element = event.findElement("a[data-remote=true]");
+    var element = event.findElement("a[data-remote]");
     if (element) {
       handleRemote(element);
       event.stop();
@@ -61,7 +61,7 @@ document.observe("dom:loaded", function() {
       input.value = input.readAttribute('data-disable-with');
     });
 
-    var element = event.findElement("form[data-remote=true]");
+    var element = event.findElement("form[data-remote]");
     if (element) {
       handleRemote(element);
       event.stop();
