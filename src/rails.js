@@ -2,7 +2,7 @@ document.observe("dom:loaded", function() {
   function handleRemote(element) {
     var method, url, params;
 
-    if (element.tagName.toLowerCase() == 'form') {
+    if (element.tagName.toLowerCase() === 'form') {
       method = element.readAttribute('method') || 'post';
       url    = element.readAttribute('action');
       params = element.serialize(true);
@@ -72,7 +72,7 @@ document.observe("dom:loaded", function() {
   $(document.body).observe("ajax:complete", function(event) {
     var element = event.findElement();
 
-    if (element.tagName.toLowerCase() == 'form') {
+    if (element.tagName.toLowerCase() === 'form') {
       var inputs = element.select("input[type=submit][disabled=true][data-disable-with]");
       inputs.each(function(input) {
         input.value = input.readAttribute('data-original-value');
