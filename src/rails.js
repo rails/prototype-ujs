@@ -69,7 +69,7 @@ document.observe("dom:loaded", function() {
     }
   });
 
-  $(document.body).observe("ajax:complete", function(event) {
+  $(document.body).observe("ajax:after", function(event) {
     var element = event.findElement();
 
     if (element.tagName.toLowerCase() === 'form') {
