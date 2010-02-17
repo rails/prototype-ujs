@@ -32,6 +32,39 @@ document.observe("dom:loaded", function() {
     element.fire("ajax:after");
   }
 
+  function handleMethod(element) {
+    var method, url, token_name, token;
+
+    method     = element.readAttribute('data-method');
+    url        = element.readAttribute('href');
+    token_name = element.readAttribute('data-forgery-protection-token-name');
+    token      = element.readAttribute('data-forgery-protection-token');
+
+    var f = document.createElement('form');
+    f.style.display = 'none';
+    element.parentNode.appendChild(f);
+    f.method = 'POST';
+    f.action = url;
+
+    if (method != 'post') {
+      var m = document.createElement('input');
+      m.setAttribute('type', 'hidden');
+      m.setAttribute('name', '_method');
+      m.setAttribute('value', method);
+      f.appendChild(m);
+    }
+
+    if (token_name) {
+      var m = document.createElement('input');
+      m.setAttribute('type', 'hidden');
+      m.setAttribute('name', token_name);
+      m.setAttribute('value', token);
+      f.appendChild(m);
+    }
+
+    f.submit();
+  }
+
   $(document.body).observe("click", function(event) {
     var message = event.findElement().readAttribute('data-confirm');
     if (message && !confirm(message)) {
@@ -43,6 +76,14 @@ document.observe("dom:loaded", function() {
     if (element) {
       handleRemote(element);
       event.stop();
+      return true;
+    }
+
+    var element = event.findElement("a[data-method]");
+    if (element) {
+      handleMethod(element);
+      event.stop();
+      return true;
     }
   });
 
