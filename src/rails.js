@@ -37,32 +37,25 @@ document.observe("dom:loaded", function() {
 
     method     = element.readAttribute('data-method');
     url        = element.readAttribute('href');
-    token_name = element.readAttribute('data-forgery-protection-token-name');
-    token      = element.readAttribute('data-forgery-protection-token');
+    csrf_param = $$('meta[name=csrf-param]').first();
+    csrf_token = $$('meta[name=csrf-token]').first();
 
-    var f = document.createElement('form');
-    f.style.display = 'none';
-    element.parentNode.appendChild(f);
-    f.method = 'POST';
-    f.action = url;
+    var form = new Element('form', { method: "POST", action: url, style: "display: none;" });
+    element.parentNode.appendChild(form);
 
     if (method != 'post') {
-      var m = document.createElement('input');
-      m.setAttribute('type', 'hidden');
-      m.setAttribute('name', '_method');
-      m.setAttribute('value', method);
-      f.appendChild(m);
+      var field = new Element('input', { type: 'hidden', name: '_method', value: method });
+      form.appendChild(field);
     }
 
-    if (token_name) {
-      var m = document.createElement('input');
-      m.setAttribute('type', 'hidden');
-      m.setAttribute('name', token_name);
-      m.setAttribute('value', token);
-      f.appendChild(m);
+    if (csrf_param) {
+      var param = csrf_param.readAttribute('content');
+      var token = csrf_token.readAttribute('content');
+      var field = new Element('input', { type: 'hidden', name: param, value: token });
+      form.appendChild(field);
     }
 
-    f.submit();
+    form.submit();
   }
 
   $(document.body).observe("click", function(event) {
