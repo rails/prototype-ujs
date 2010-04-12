@@ -110,7 +110,7 @@ document.observe("dom:loaded", function() {
       var inputs = element.select("input[type=submit][disabled=true][data-disable-with]");
       inputs.each(function(input) {
         input.value = input.readAttribute('data-original-value');
-        input.writeAttribute('data-original-value', null);
+        input.removeAttribute('data-original-value');
         input.disabled = false;
       });
     }
