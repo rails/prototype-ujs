@@ -58,7 +58,7 @@ document.observe("dom:loaded", function() {
     form.submit();
   }
 
-  $(document.body).observe("click", function(event) {
+  document.observe("click", function(event) {
     var message = event.findElement().readAttribute('data-confirm');
     if (message && !confirm(message)) {
       event.stop();
@@ -81,7 +81,7 @@ document.observe("dom:loaded", function() {
   });
 
   // TODO: I don't think submit bubbles in IE
-  $(document.body).observe("submit", function(event) {
+  document.observe("submit", function(event) {
     var element = event.findElement(),
         message = element.readAttribute('data-confirm');
     if (message && !confirm(message)) {
@@ -103,7 +103,7 @@ document.observe("dom:loaded", function() {
     }
   });
 
-  $(document.body).observe("ajax:after", function(event) {
+  document.observe("ajax:after", function(event) {
     var element = event.findElement();
 
     if (element.tagName.toLowerCase() === 'form') {
