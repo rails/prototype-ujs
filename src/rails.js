@@ -49,9 +49,9 @@ document.observe("dom:loaded", function() {
     }
 
     if (csrf_param) {
-      var param = csrf_param.readAttribute('content');
-      var token = csrf_token.readAttribute('content');
-      var field = new Element('input', { type: 'hidden', name: param, value: token });
+      var param = csrf_param.readAttribute('content'),
+          token = csrf_token.readAttribute('content'),
+          field = new Element('input', { type: 'hidden', name: param, value: token });
       form.appendChild(field);
     }
 
