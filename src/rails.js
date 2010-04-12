@@ -18,7 +18,6 @@ document.observe("dom:loaded", function() {
     new Ajax.Request(url, {
       method: method,
       parameters: params,
-      asynchronous: true,
       evalScripts: true,
 
       onLoading:     function(request) { element.fire("ajax:loading", {request: request}); },
