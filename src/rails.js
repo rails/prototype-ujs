@@ -34,8 +34,8 @@ document.observe("dom:loaded", function() {
   function handleMethod(element) {
     var method = element.readAttribute('data-method'), 
         url = element.readAttribute('href'),
-        csrf_param = $$('meta[name=csrf-param]').first(),
-        csrf_token = $$('meta[name=csrf-token]').first();
+        csrf_param = $$('meta[name=csrf-param]')[0],
+        csrf_token = $$('meta[name=csrf-token]')[0];
 
     var form = new Element('form', { method: "POST", action: url, style: "display: none;" });
     element.parentNode.appendChild(form);
