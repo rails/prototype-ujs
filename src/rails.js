@@ -40,7 +40,7 @@ document.observe("dom:loaded", function() {
     var form = new Element('form', { method: "POST", action: url, style: "display: none;" });
     element.parentNode.appendChild(form);
 
-    if (method != 'post') {
+    if (method !== 'post') {
       var field = new Element('input', { type: 'hidden', name: '_method', value: method });
       form.appendChild(field);
     }
