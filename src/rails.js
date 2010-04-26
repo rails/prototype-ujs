@@ -1,4 +1,4 @@
-document.observe("dom:loaded", function() {
+document.on("dom:loaded", function() {
   function handleRemote(element) {
     var method, url, params;
 
@@ -32,7 +32,7 @@ document.observe("dom:loaded", function() {
   }
 
   function handleMethod(element) {
-    var method = element.readAttribute('data-method'), 
+    var method = element.readAttribute('data-method'),
         url = element.readAttribute('href'),
         csrf_param = $$('meta[name=csrf-param]')[0],
         csrf_token = $$('meta[name=csrf-token]')[0];
@@ -55,7 +55,7 @@ document.observe("dom:loaded", function() {
     form.submit();
   }
 
-  document.observe("click", function(event) {
+  document.on("click", function(event) {
     var message = event.findElement().readAttribute('data-confirm');
     if (message && !confirm(message)) {
       event.stop();
@@ -78,7 +78,7 @@ document.observe("dom:loaded", function() {
   });
 
   // TODO: I don't think submit bubbles in IE
-  document.observe("submit", function(event) {
+  document.on("submit", function(event) {
     var element = event.findElement(),
         message = element.readAttribute('data-confirm');
     if (message && !confirm(message)) {
@@ -100,7 +100,7 @@ document.observe("dom:loaded", function() {
     }
   });
 
-  document.observe("ajax:after", function(event) {
+  document.on("ajax:after", function(event) {
     var element = event.findElement();
 
     if (element.tagName.toLowerCase() === 'form') {
