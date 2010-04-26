@@ -38,18 +38,18 @@ document.on("dom:loaded", function() {
         csrf_token = $$('meta[name=csrf-token]')[0];
 
     var form = new Element('form', { method: "POST", action: url, style: "display: none;" });
-    element.parentNode.appendChild(form);
+    element.parentNode.insert(form);
 
     if (method !== 'post') {
       var field = new Element('input', { type: 'hidden', name: '_method', value: method });
-      form.appendChild(field);
+      form.insert(field);
     }
 
     if (csrf_param) {
       var param = csrf_param.readAttribute('content'),
           token = csrf_token.readAttribute('content'),
           field = new Element('input', { type: 'hidden', name: param, value: token });
-      form.appendChild(field);
+      form.insert(field);
     }
 
     form.submit();
