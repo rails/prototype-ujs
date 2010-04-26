@@ -55,29 +55,25 @@ document.on("dom:loaded", function() {
     form.submit();
   }
 
-  document.on("click", function(event) {
-    var message = event.findElement().readAttribute('data-confirm');
-    if (message && !confirm(message)) {
-      event.stop();
-      return false;
-    }
 
-    var element = event.findElement("a[data-remote]");
-    if (element) {
-      handleRemote(element);
-      event.stop();
-      return true;
-    }
-
-    var element = event.findElement("a[data-method]");
-    if (element) {
-      handleMethod(element);
-      event.stop();
-      return true;
-    }
+  document.on("click", "*[data-confirm]", function(event, element) {
+    var message = element.readAttribute('data-confirm');
+    if (!confirm(message)) event.stop();
   });
 
-  // TODO: I don't think submit bubbles in IE
+  document.on("click", "a[data-remote]", function(event, element) {
+    if (event.stopped) return;
+    handleRemote(element);
+    event.stop();
+  });
+
+  document.on("click", "a[data-method]", function(event, element) {
+    if (event.stopped) return;
+    handleMethod(element);
+    event.stop();
+  });
+
+  // TODO: Submit does not bubble in IE
   document.on("submit", function(event) {
     var element = event.findElement(),
         message = element.readAttribute('data-confirm');
