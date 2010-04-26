@@ -96,16 +96,12 @@ document.on("dom:loaded", function() {
     }
   });
 
-  document.on("ajax:after", function(event) {
-    var element = event.findElement();
-
-    if (element.tagName.toLowerCase() === 'form') {
-      var inputs = element.select("input[type=submit][disabled=true][data-disable-with]");
-      inputs.each(function(input) {
-        input.value = input.readAttribute('data-original-value');
-        input.removeAttribute('data-original-value');
-        input.disabled = false;
-      });
-    }
+  document.on("ajax:after", "form", function(event, element) {
+    var inputs = element.select("input[type=submit][disabled=true][data-disable-with]");
+    inputs.each(function(input) {
+      input.value = input.readAttribute('data-original-value');
+      input.removeAttribute('data-original-value');
+      input.disabled = false;
+    });
   });
 });
