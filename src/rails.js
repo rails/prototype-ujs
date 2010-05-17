@@ -3,6 +3,7 @@ document.on("dom:loaded", function() {
     var method, url, params;
 
     var event = element.fire("ajax:before");
+    if (event.stopped) return false;
 
     if (element.tagName.toLowerCase() === 'form') {
       method = element.readAttribute('method') || 'post';
@@ -13,8 +14,6 @@ document.on("dom:loaded", function() {
       url    = element.readAttribute('href');
       params = {};
     }
-
-    if (event.stopped) return false;
 
     new Ajax.Request(url, {
       method: method,
