@@ -2,6 +2,7 @@ document.on("dom:loaded", function() {
   function handleRemote(element) {
     var method, url, params;
 
+    if (event.stopped) return false;
     var event = element.fire("ajax:before");
 
     if (element.tagName.toLowerCase() === 'form') {
@@ -13,8 +14,6 @@ document.on("dom:loaded", function() {
       url    = element.readAttribute('href');
       params = {};
     }
-
-    if (event.stopped) return false;
 
     new Ajax.Request(url, {
       method: method,
