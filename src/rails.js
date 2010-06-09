@@ -20,12 +20,9 @@
       parameters: params,
       evalScripts: true,
 
-      onLoading:     function(request) { element.fire("ajax:loading", {request: request}); },
-      onLoaded:      function(request) { element.fire("ajax:loaded", {request: request}); },
-      onInteractive: function(request) { element.fire("ajax:interactive", {request: request}); },
-      onComplete:    function(request) { element.fire("ajax:complete", {request: request}); },
-      onSuccess:     function(request) { element.fire("ajax:success", {request: request}); },
-      onFailure:     function(request) { element.fire("ajax:failure", {request: request}); }
+      onComplete:    function(request) { element.fire("ajax:complete", request); },
+      onSuccess:     function(request) { element.fire("ajax:success",  request); },
+      onFailure:     function(request) { element.fire("ajax:failure",  request); }
     });
 
     element.fire("ajax:after");
