@@ -1,4 +1,4 @@
-document.on("dom:loaded", function() {
+(function() {
   function handleRemote(element) {
     var method, url, params;
 
@@ -104,4 +104,4 @@ document.on("dom:loaded", function() {
       input.disabled = false;
     });
   });
-});
+})();
