@@ -8,7 +8,7 @@
     if (element.tagName.toLowerCase() === 'form') {
       method = element.readAttribute('method') || 'post';
       url    = element.readAttribute('action');
-      params = element.serialize(true);
+      params = element.serialize();
     } else {
       method = element.readAttribute('data-method') || 'get';
       url    = element.readAttribute('href');
