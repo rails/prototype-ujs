@@ -45,28 +45,28 @@
 
   if (!submitBubbles) {
     // discover forms on the page by observing focus events which always bubble
-    document.on('focusin', 'form', function(focusEvent) {
+    document.on('focusin', 'form', function(focusEvent, form) {
       // special handler for the real "submit" event (one-time operation)
-      if (!this.retrieve('emulated:submit')) {
-        this.on('submit', function(submitEvent) {
-          var emulated = this.fire('emulated:submit', submitEvent, true)
+      if (!form.retrieve('emulated:submit')) {
+        form.on('submit', function(submitEvent) {
+          var emulated = form.fire('emulated:submit', submitEvent, true)
           // if custom event received preventDefault, cancel the real one too
           if (emulated.returnValue === false) submitEvent.preventDefault()
         })
-        this.store('emulated:submit', true)
+        form.store('emulated:submit', true)
       }
     })
   }
 
   if (!changeBubbles) {
     // discover form inputs on the page
-    document.on('focusin', 'input, select, texarea', function(focusEvent) {
+    document.on('focusin', 'input, select, texarea', function(focusEvent, input) {
       // special handler for real "change" events
-      if (!this.retrieve('emulated:change')) {
-        this.on('change', function(changeEvent) {
-          this.fire('emulated:change', changeEvent, true)
+      if (!input.retrieve('emulated:change')) {
+        input.on('change', function(changeEvent) {
+          input.fire('emulated:change', changeEvent, true)
         })
-        this.store('emulated:change', true)
+        input.store('emulated:change', true)
       }
     })
   }
