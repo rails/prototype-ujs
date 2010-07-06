@@ -143,33 +143,28 @@
   });
 
   document.on("submit", function(event) {
-    var element = event.findElement(),
-        message = element.readAttribute('data-confirm');
+    var form = event.findElement(),
+        message = form.readAttribute('data-confirm');
+
     if (message && !confirm(message)) {
       event.stop();
       return false;
     }
 
-    var inputs = element.select("input[type=submit][data-disable-with]");
-    inputs.each(function(input) {
-      input.disabled = true;
-      input.writeAttribute('data-original-value', input.value);
-      input.value = input.readAttribute('data-disable-with');
+    form.select('input[type=submit][data-disable-with]').each(function(input) {
+      input.store('rails:original-value', input.getValue());
+      input.disable().setValue(input.readAttribute('data-disable-with'));
     });
 
-    var element = event.findElement("form[data-remote]");
-    if (element) {
-      handleRemote(element);
+    if (form.readAttribute('data-remote')) {
+      handleRemote(form);
       event.stop();
     }
   });
 
-  document.on("ajax:after", "form", function(event, element) {
-    var inputs = element.select("input[type=submit][disabled=true][data-disable-with]");
-    inputs.each(function(input) {
-      input.value = input.readAttribute('data-original-value');
-      input.removeAttribute('data-original-value');
-      input.disabled = false;
+  document.on("ajax:after", "form", function(event, form) {
+    form.select('input[type=submit][data-disable-with]').each(function(input) {
+      input.setValue(input.retrieve('rails:original-value')).enable();
     });
   });
 })();
