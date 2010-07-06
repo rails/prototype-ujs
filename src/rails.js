@@ -100,6 +100,10 @@
     element.fire("ajax:after");
   }
 
+  function insertHiddenField(form, name, value) {
+    form.insert(new Element('input', { type: 'hidden', name: name, value: value }));
+  }
+
   function handleMethod(element) {
     var method = element.readAttribute('data-method'),
         url = element.readAttribute('href'),
@@ -110,15 +114,11 @@
     element.parentNode.insert(form);
 
     if (method !== 'post') {
-      var field = new Element('input', { type: 'hidden', name: '_method', value: method });
-      form.insert(field);
+      insertHiddenField(form, '_method', method);
     }
 
     if (csrf_param) {
-      var param = csrf_param.readAttribute('content'),
-          token = csrf_token.readAttribute('content'),
-          field = new Element('input', { type: 'hidden', name: param, value: token });
-      form.insert(field);
+      insertHiddenField(form, csrf_param.readAttribute('content'), csrf_token.readAttribute('content'));
     }
 
     form.submit();
