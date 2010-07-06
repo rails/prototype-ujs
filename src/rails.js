@@ -14,33 +14,33 @@
   }
 
   function isForm(element) {
-    return Object.isElement(element) && element.nodeName.toUpperCase() == 'FORM'
+    return Object.isElement(element) && element.nodeName.toUpperCase() == 'FORM';
   }
 
   function isInput(element) {
     if (Object.isElement(element)) {
-      var name = element.nodeName.toUpperCase()
-      return name == 'INPUT' || name == 'SELECT' || name == 'TEXTAREA'
+      var name = element.nodeName.toUpperCase();
+      return name == 'INPUT' || name == 'SELECT' || name == 'TEXTAREA';
     }
-    else return false
+    else return false;
   }
 
   var submitBubbles = isEventSupported('submit'),
-      changeBubbles = isEventSupported('change')
+      changeBubbles = isEventSupported('change');
 
   if (!submitBubbles || !changeBubbles) {
     // augment the Event.Handler class to observe custom events when needed
     Event.Handler.prototype.initialize = Event.Handler.prototype.initialize.wrap(
       function(init, element, eventName, selector, callback) {
-        init(element, eventName, selector, callback)
+        init(element, eventName, selector, callback);
         // is the handler being attached to an element that doesn't support this event?
         if ( (!submitBubbles && this.eventName == 'submit' && !isForm(this.element)) ||
              (!changeBubbles && this.eventName == 'change' && !isInput(this.element)) ) {
           // "submit" => "emulated:submit"
-          this.eventName = 'emulated:' + this.eventName
+          this.eventName = 'emulated:' + this.eventName;
         }
       }
-    )
+    );
   }
 
   if (!submitBubbles) {
@@ -49,13 +49,13 @@
       // special handler for the real "submit" event (one-time operation)
       if (!form.retrieve('emulated:submit')) {
         form.on('submit', function(submitEvent) {
-          var emulated = form.fire('emulated:submit', submitEvent, true)
+          var emulated = form.fire('emulated:submit', submitEvent, true);
           // if custom event received preventDefault, cancel the real one too
-          if (emulated.returnValue === false) submitEvent.preventDefault()
-        })
-        form.store('emulated:submit', true)
+          if (emulated.returnValue === false) submitEvent.preventDefault();
+        });
+        form.store('emulated:submit', true);
       }
-    })
+    });
   }
 
   if (!changeBubbles) {
@@ -64,11 +64,11 @@
       // special handler for real "change" events
       if (!input.retrieve('emulated:change')) {
         input.on('change', function(changeEvent) {
-          input.fire('emulated:change', changeEvent, true)
-        })
-        input.store('emulated:change', true)
+          input.fire('emulated:change', changeEvent, true);
+        });
+        input.store('emulated:change', true);
       }
-    })
+    });
   }
 
   function handleRemote(element) {
