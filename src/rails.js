@@ -80,7 +80,7 @@
     if (element.tagName.toLowerCase() === 'form') {
       method = element.readAttribute('method') || 'post';
       url    = element.readAttribute('action');
-      params = element.serialize();
+      params = element.serialize({ submit: element.retrieve('rails:submit-button') });
     } else {
       method = element.readAttribute('data-method') || 'get';
       url    = element.readAttribute('href');
@@ -140,6 +140,11 @@
     if (event.stopped) return;
     handleMethod(element);
     event.stop();
+  });
+
+  document.on("click", "form input[type=submit]", function(event, button) {
+    // register the pressed submit button
+    event.findElement('form').store('rails:submit-button', button.name || false);
   });
 
   document.on("submit", function(event) {
