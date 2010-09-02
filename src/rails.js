@@ -60,7 +60,7 @@
 
   if (!changeBubbles) {
     // discover form inputs on the page
-    document.on('focusin', 'input, select, texarea', function(focusEvent, input) {
+    document.on('focusin', 'input, select, textarea', function(focusEvent, input) {
       // special handler for real "change" events
       if (!input.retrieve('emulated:change')) {
         input.on('change', function(changeEvent) {
