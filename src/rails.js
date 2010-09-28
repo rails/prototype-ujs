@@ -150,6 +150,11 @@
     event.findElement('form').store('rails:submit-button', button.name || false);
   });
 
+  document.on("click", "form button[type=submit]", function(event, button) {
+    // register the pressed submit button
+    event.findElement('form').store('rails:submit-button', button.name || false);
+  });
+
   document.on("submit", function(event) {
     var form = event.findElement(),
         message = form.readAttribute('data-confirm');
