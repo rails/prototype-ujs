@@ -141,21 +141,24 @@
     });
   }
 
-  document.on("click", "*[data-confirm]", function(event, element) {
+  function allowAction(element) {
     var message = element.readAttribute('data-confirm');
-    if (!confirm(message)) event.stop();
-  });
+    return !message || confirm(message);
+  }
 
-  document.on("click", "a[data-remote]", function(event, element) {
-    if (event.stopped) return;
-    handleRemote(element);
-    event.stop();
-  });
+  document.on('click', 'a[data-confirm], a[data-remote], a[data-method]', function(event, link) {
+    if (!allowAction(link)) {
+      event.stop();
+      return false;
+    }
 
-  document.on("click", "a[data-method]", function(event, element) {
-    if (event.stopped) return;
-    handleMethod(element);
-    event.stop();
+    if (link.readAttribute('data-remote')) {
+      handleRemote(link);
+      event.stop();
+    } else if (link.readAttribute('data-method')) {
+      handleMethod(link);
+      event.stop();
+    }
   });
 
   document.on("click", "form input[type=submit], form button[type=submit], form button:not([type])", function(event, button) {
@@ -164,10 +167,9 @@
   });
 
   document.on("submit", function(event) {
-    var form = event.findElement(),
-        message = form.readAttribute('data-confirm');
+    var form = event.findElement();
 
-    if (message && !confirm(message)) {
+    if (!allowAction(form)) {
       event.stop();
       return false;
     }
