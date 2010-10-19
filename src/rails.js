@@ -131,7 +131,13 @@
   function disableFormElements(form) {
     form.select('input[type=submit][data-disable-with]').each(function(input) {
       input.store('rails:original-value', input.getValue());
-      input.disable().setValue(input.readAttribute('data-disable-with'));
+      input.setValue(input.readAttribute('data-disable-with')).disable();
+    });
+  }
+  
+  function enableFormElements(form) {
+    form.select('input[type=submit][data-disable-with]').each(function(input) {
+      input.setValue(input.retrieve('rails:original-value')).enable();
     });
   }
 
@@ -174,14 +180,11 @@
     }
   });
 
-  document.on("ajax:create", function(event) {
-    var element = event.findElement();
-    if (element.match('form')) disableFormElements(element);
+  document.on('ajax:create', 'form', function(event, form) {
+    if (form == event.findElement()) disableFormElements(form);
   });
   
-  document.on("ajax:complete", "form", function(event, form) {
-    form.select('input[type=submit][data-disable-with]').each(function(input) {
-      input.setValue(input.retrieve('rails:original-value')).enable();
-    });
+  document.on('ajax:complete', 'form', function(event, form) {
+    if (form == event.findElement()) enableFormElements(form);
   });
 })();
