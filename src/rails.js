@@ -95,7 +95,7 @@
       parameters: params,
       evalScripts: true,
 
-      onCreate:   function(request)  { element.fire("ajax:create",   request); },
+      onCreate:   function(response) { element.fire("ajax:create",   response); },
       onComplete: function(response) { element.fire("ajax:complete", response); },
       onSuccess:  function(response) { element.fire("ajax:success",  response); },
       onFailure:  function(response) { element.fire("ajax:failure",  response); }
