@@ -115,7 +115,7 @@
         csrf_token = $$('meta[name=csrf-token]')[0];
 
     var form = new Element('form', { method: "POST", action: url, style: "display: none;" });
-    element.parentNode.insert(form);
+    $(element.parentNode).insert(form);
 
     if (method !== 'post') {
       insertHiddenField(form, '_method', method);
