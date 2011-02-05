@@ -48,7 +48,7 @@ This attribute indicates that a submit button should get disabled while the form
 
 ### "data-method": Links that result in POST, PUT, or DELETE requests
 
-    <a href="..." data-method="delete">Delete this entry</a>
+    <a href="..." data-method="delete" rel="nofollow">Delete this entry</a>
 
 Activating hyperlinks (usually by clicking or tapping on them) always results in an HTTP GET request. However, if your application is [RESTful][], some links are in fact actions that change data on the server and must be performed with non-GET requests. This attribute allows marking up such links with an explicit method such as "post", "put" or "delete".
 
