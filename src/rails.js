@@ -1,4 +1,14 @@
 (function() {
+  Ajax.Responders.register({
+    onCreate: function(request) {
+      var token = $$('meta[name=csrf-token]')[0];
+      if (token) {
+        if (!request.options.requestHeaders) request.options.requestHeaders = {};
+        request.options.requestHeaders['X-CSRF-Token'] = token.readAttribute('content');
+      }
+    }
+  });
+
   // Technique from Juriy Zaytsev
   // http://thinkweb2.com/projects/prototype/detecting-event-support-without-browser-sniffing/
   function isEventSupported(eventName) {
